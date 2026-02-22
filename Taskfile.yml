@@ -2,6 +2,7 @@ version: '3'
 dotenv: ['.env']
 vars:
   BASE: docker compose --env-file $DOCKER_STACK_PATH/.env.cms.local -f $DOCKER_STACK_PATH/docker-compose.yml
+  DOCKER_PHP_EXEC: ./scripts/docker-php-exec.sh
 tasks:
   # Docker Compose Management
   docker:up:
@@ -15,32 +16,32 @@ tasks:
     cmds:
       - '{{.BASE}} down'
       - '{{.BASE}} up -d'
+  docker:php:exec:
+    desc: execute code inside php service container (usage - go-task docker:php:exec -- composer --version)
+    cmd: '{{.DOCKER_PHP_EXEC}} {{.CLI_ARGS}}'
   # Laravel Application Management
   app:upgrade:
     desc: Clear Laravel caches and run migrations
     cmds:
-      - '{{.BASE}} exec php /bin/sh -c ''php artisan optimize:clear'''
-      - '{{.BASE}} exec php /bin/sh -c ''php artisan config:clear'''
-      - '{{.BASE}} exec php /bin/sh -c ''php artisan cache:clear'''
-      - '{{.BASE}} exec php /bin/sh -c ''php artisan view:clear'''
-      - '{{.BASE}} exec php /bin/sh -c ''php artisan migrate'''
+      - '{{.DOCKER_PHP_EXEC}} php artisan optimize:clear'
+      - '{{.DOCKER_PHP_EXEC}} php artisan config:clear'
+      - '{{.DOCKER_PHP_EXEC}} php artisan cache:clear'
+      - '{{.DOCKER_PHP_EXEC}} php artisan view:clear'
+      - '{{.DOCKER_PHP_EXEC}} php artisan migrate'
   app:clear:
     desc: Clear all Laravel caches
-    cmd: '{{.BASE}} exec php /bin/sh -c "php artisan optimize:clear"'
-  app:artisan:
-    desc: Run artisan command (usage - task app:artisan -- migrate:status)
-    cmd: '{{.BASE}} exec php /bin/sh -c "php artisan {{.CLI_ARGS}}"'
+    cmd: '{{.DOCKER_PHP_EXEC}} php artisan optimize:clear'
   # Database Management
   db:fresh:
     desc: Reset database (fresh migration)
-    cmd: '{{.BASE}} exec php /bin/sh -c "php artisan migrate:fresh"'
+    cmd: '{{.DOCKER_PHP_EXEC}} php artisan migrate:fresh'
   db:seed:
     desc: Reset database with seeding
-    cmd: '{{.BASE}} exec php /bin/sh -c "php artisan migrate:fresh --seed"'
+    cmd: '{{.DOCKER_PHP_EXEC}} php artisan migrate:fresh --seed'
   # Build frontend assets
   build:npm:
     desc: Build frontend assets (vite build)
-    cmd: '{{.BASE}} exec php /bin/sh -c "npm run build"'
+    cmd: '{{.DOCKER_PHP_EXEC}} npm run build'
   build:dev:
     desc: Start Vite dev server
-    cmd: '{{.BASE}} exec php /bin/sh -c "npm run dev"'
+    cmd: '{{.DOCKER_PHP_EXEC}} npm run dev'
