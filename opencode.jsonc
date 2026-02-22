@@ -1,0 +1,22 @@
+{
+    "$schema": "https://opencode.ai/config.json",
+    // Theme configuration
+    "theme": "nightowl",
+    // "model": "anthropic/claude-sonnet-4-5",
+    // "autoupdate": true,
+    "instructions": [
+        "_instructions/**/*.md"
+    ],
+    "mcp": {
+        "laravel-boost": {
+            "type": "local",
+            "enabled": true,
+            "command": [
+                "scripts/docker-php-exec.sh",
+                "php",
+                "artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
