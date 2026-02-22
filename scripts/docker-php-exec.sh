@@ -21,8 +21,13 @@ if [ -z "${DOCKER_STACK_PATH:-}" ]; then
     exit 1
 fi
 
+if [ -z "${DOCKER_STACK_ENV_FILE:-}" ]; then
+    echo "Error: DOCKER_STACK_ENV_FILE not set in .env" >&2
+    exit 1
+fi
+
 # Build docker compose base command
-COMPOSE_CMD="docker compose --env-file $DOCKER_STACK_PATH/.env.cms.local -f $DOCKER_STACK_PATH/docker-compose.yml"
+COMPOSE_CMD="docker compose --env-file $DOCKER_STACK_PATH/$DOCKER_STACK_ENV_FILE -f $DOCKER_STACK_PATH/docker-compose.yml"
 
 # Execute command in php container
 # Pass all arguments directly - no nested quoting needed
