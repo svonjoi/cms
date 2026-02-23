@@ -2,7 +2,7 @@ version: '3'
 dotenv: ['.env']
 vars:
   BASE: docker compose --env-file $DOCKER_STACK_PATH/$DOCKER_STACK_ENV_FILE -f $DOCKER_STACK_PATH/docker-compose.yml
-  DOCKER_PHP_EXEC: ./scripts/docker-php-exec.sh
+  DOCKER_PHP_EXEC: $DOCKER_STACK_PATH/scripts/docker-php-exec.sh
 tasks:
   # Docker Compose Management
   docker:up:
@@ -31,6 +31,9 @@ tasks:
   app:clear:
     desc: Clear all Laravel caches
     cmd: '{{.DOCKER_PHP_EXEC}} php artisan optimize:clear'
+  app:fix-perms:
+    desc: Fix Laravel storage and cache permissions
+    cmd: '$DOCKER_STACK_PATH/scripts/laravel-fix-perms.sh'
   # Database Management
   db:fresh:
     desc: Reset database (fresh migration)
