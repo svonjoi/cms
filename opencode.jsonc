@@ -12,7 +12,7 @@
             "type": "local",
             "enabled": true,
             "command": [
-                "scripts/docker-php-exec.sh",
+                "./scripts/wrapper-docker-php-exec.sh",
                 "php",
                 "artisan",
                 "boost:mcp"

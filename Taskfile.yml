@@ -2,8 +2,7 @@ version: '3'
 dotenv: ['.env']
 vars:
   # docker compose doesn't expand shell variables from env files
-  BASE: docker compose --env-file ./.env -f $DOCKER_STACK_PATH/docker-compose.yml
-  DOCKER_PHP_EXEC: $DOCKER_STACK_PATH/scripts/docker-php-exec.sh
+  BASE: docker compose --env-file ./.env -f {{.DOCKER_STACK_PATH}}/docker-compose.yml
 tasks:
   # Docker Compose Management
   docker:up:
