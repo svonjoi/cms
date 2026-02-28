@@ -20,7 +20,7 @@ tasks:
     desc: execute code inside php service container (usage - go-task docker:php:exec -- composer --version)
     cmd: '{{.DOCKER_PHP_EXEC}} {{.CLI_ARGS}}'
   # Laravel Application Management
-  app:upgrade:
+  app:cache:
     desc: Clear Laravel caches
     cmds:
       - '{{.DOCKER_PHP_EXEC}} php artisan optimize:clear'
