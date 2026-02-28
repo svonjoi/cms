@@ -21,13 +21,12 @@ tasks:
     cmd: '{{.DOCKER_PHP_EXEC}} {{.CLI_ARGS}}'
   # Laravel Application Management
   app:upgrade:
-    desc: Clear Laravel caches and run migrations
+    desc: Clear Laravel caches
     cmds:
       - '{{.DOCKER_PHP_EXEC}} php artisan optimize:clear'
       - '{{.DOCKER_PHP_EXEC}} php artisan config:clear'
       - '{{.DOCKER_PHP_EXEC}} php artisan cache:clear'
       - '{{.DOCKER_PHP_EXEC}} php artisan view:clear'
-      - '{{.DOCKER_PHP_EXEC}} php artisan migrate'
   app:clear:
     desc: Clear all Laravel caches
     cmd: '{{.DOCKER_PHP_EXEC}} php artisan optimize:clear'
